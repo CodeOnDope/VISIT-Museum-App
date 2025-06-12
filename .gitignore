@@ -1,0 +1,73 @@
+# VISIT Museum App - Git Ignore File
+
+# Virtual Environment
+venv/
+visit_env/
+env/
+ENV/
+
+# License Files (Never commit real licenses!)
+*.key
+license.key
+license_*.key
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Application Generated Files
+logs/*.log
+backup/*.zip
+backup/*.json
+
+# License Database (Contains sensitive info)
+license_tools/visit_license_database.json
+license_tools/license_backup/*.key
+
+# Testing Files
+test_*.py
+debug_*.py
+*_test.py
+*_debug.py
+
+# User Configuration Files
+app/user_config.json
+configs/user_*.json
+
+# Media Files (Too large for Git)
+media/*/*.mp4
+media/*/*.avi
+media/*/*.mov
+media/*/*.mp3
+media/*/*.wav
+*.mp4
+*.avi
+*.mov
+*.mp3
+*.wav
+
+# Temporary Files
+temp/
+tmp/
+*.tmp
+*.temp
+
+# Build Files
+build/
+dist/
+*.egg-info/

@@ -125,7 +125,15 @@ class VisitApp:
                 return False
                 
             with open('license.key', 'r') as f:
-                license_data = json.load(f)
+                license_content = f.read().strip()
+                
+            # Try to parse as JSON
+            try:
+                license_data = json.loads(license_content)
+            except json.JSONDecodeError:
+                messagebox.showerror("License Error", "Invalid license file format. Please contact the developer.")
+                self.root.destroy()
+                return False
                 
             # Verify license validity
             if not self.validate_license(license_data):
@@ -142,15 +150,40 @@ class VisitApp:
     def validate_license(self, license_data):
         """Validate license data"""
         try:
+            # Ensure license_data is a dictionary
+            if not isinstance(license_data, dict):
+                print(f"License data is not a dictionary: {type(license_data)}")
+                return False
+                
+            # Check required fields
+            required_fields = ['museum_id', 'expiry', 'hash']
+            for field in required_fields:
+                if field not in license_data:
+                    print(f"Missing required field: {field}")
+                    return False
+            
             # Check if license has expired
             expiry_date = datetime.strptime(license_data['expiry'], '%Y-%m-%d')
             if datetime.now() > expiry_date:
+                print("License has expired")
                 return False
                 
-            # Verify hash
-            expected_hash = hashlib.sha256(f"{license_data['museum_id']}{license_data['expiry']}VISIT_SECRET_KEY".encode()).hexdigest()
+            # Verify hash using the EXACT same algorithm as generator
+            hash_input = f"{license_data['museum_id']}{license_data['expiry']}VISIT_SECRET_KEY"
+            expected_hash = hashlib.sha256(hash_input.encode()).hexdigest()
+            
+            # Debug information (can be removed in production)
+            print(f"License validation debug:")
+            print(f"Museum ID: {license_data['museum_id']}")
+            print(f"Expiry: {license_data['expiry']}")
+            print(f"Hash input: {hash_input}")
+            print(f"Expected hash: {expected_hash}")
+            print(f"License hash: {license_data['hash']}")
+            print(f"Hash match: {expected_hash == license_data['hash']}")
+            
             return expected_hash == license_data['hash']
-        except:
+        except Exception as e:
+            print(f"License validation error: {e}")
             return False
     
     def setup_ui(self):
