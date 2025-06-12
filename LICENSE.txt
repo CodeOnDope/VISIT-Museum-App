@@ -1,0 +1,10 @@
+VISIT Interactive Museum Application License
+
+Copyright (c) 2025 Dineshkumar Rajendran
+
+This software is licensed for use by authorized museums only.
+Each installation requires a valid license key.
+
+Unauthorized distribution, modification, or use is strictly prohibited.
+
+For licensing inquiries, contact the developer.
